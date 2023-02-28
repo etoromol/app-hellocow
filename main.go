@@ -1,16 +1,28 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+	"os"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	host, _ := os.Hostname()
+	banner := `
+	    ----------------------
+	  (  Mooooo, World!        )
+	 (  From ` + host + `  )
+        (  Version 1.0.0         )
+          ----------------------
+		      \   ^__^ 
+		       \  (oo)\\_______ 
+		          (__)\\       )\/\ 
+		              ||----w | 
+	                      ||     ||   `
+	fmt.Fprintf(w, "%s", banner)
+}
 
 func main() {
-	fmt.Println("\n     -------------- _")
-	fmt.Println("   ( Hellow, World!  ) _")
-	fmt.Println("  (  Version  > 1.0.0    ) _")
-	fmt.Println(" (   Hostname > _host       )")
-	fmt.Println("   ------------------------ ")
-	fmt.Println("        \\   ^__^ ")
-	fmt.Println("         \\  (oo)\\_______ ")
-	fmt.Println("            (__)\\       )\\/\\ ")
-	fmt.Println("                ||----w | ")
-	fmt.Println("                ||     || ")
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":8080", nil)
 }
