@@ -1,6 +1,6 @@
 # app-hellocow 🐮
 
-This repository documents the process to containerize a [Go](https://go.dev/) Web Application named `hellowcow` using [Docker](https://www.docker.com/). 
+This repository documents the process to containerize a [Go](https://go.dev/) Web Application named `hellocow` using [Docker](https://www.docker.com/). 
 
             -----------------------
           /  Mooooo, World!        /
@@ -15,20 +15,20 @@ This repository documents the process to containerize a [Go](https://go.dev/) We
                             ||----w | 
                             ||     ||    
 
-`Hellocow` serves as a basic `Hello World` service and leverage a Dockerfile to build the application. By containerizing the application, it becomes easily deployable and scalable within [Kubernetes](https://kubernetes.io/) environments as a microservice test-case.
+`Hellocow` serves as a basic `Hello World` service and leverage a [Dockerfile](Dockerfile) to build the application. By containerizing the application, it becomes easily deployable and scalable within [Kubernetes](https://kubernetes.io/) environments as a microservice test-case.
 
 Cloud developers can utilize this repository as a reference and baseline project. The ultimate goal is to empower developers to seamlessly deploy the application on various Kubernetes cloud services, such as [GKE](https://cloud.google.com/kubernetes-engine/), [EKS](https://aws.amazon.com/eks/) and [AKS](https://learn.microsoft.com/en-us/azure/aks/).
 
 Within this directory, you will find:
 
-- `main.go` contains the HTTP server implementation. It prints `Mooooo, World!`, providing a fun response to client requests.
-- `Dockerfile` facilitates the creation of the [Container Image](https://docs.docker.com/engine/reference/commandline/images/) of the application.
+- [main.go](main.go) contains the HTTP server implementation. It prints `Mooooo, World!`, providing a fun response to client requests.
+- [Dockerfile](Dockerfile) facilitates the creation of the [Container Image](https://docs.docker.com/engine/reference/commandline/images/) of the application.
 
 *"Container Image" and "Docker Image" refer to the same concept. Docker, being a popular containerization platform, introduced the concept of container images and uses the term "Docker images" to specifically refer to the images created and managed using Docker tools.*
 
 This application is already built and available in [Docker Hub](https://hub.docker.com/) which is a cloud-based [Container Registry]() for container images:
 
-- `https://hub.docker.com/r/etoromol/hellocow`
+- [https://hub.docker.com/r/etoromol/hellocow](https://hub.docker.com/r/etoromol/hellocow)
 
 ## ¿Why Docker?
 
@@ -40,7 +40,7 @@ To successfully build and deploy this application, please ensure that you have t
 
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) (4.21.0+) installed.
 
-*Alternatively, you may opt to use an alternative container engine such as Podman. [Podman](https://podman.io/).*
+*Alternatively, you may opt to use an alternative container engine such as [Podman](https://podman.io/).*
 
 ## Installation and deployment
 
@@ -55,14 +55,14 @@ cd app-hellowcow
 docker build -t app/hellocow:1.0.0 .
 ```
 
-3. To create the Container image and start the Container, you can use the docker run command as a single step:
+3. To create the Container and initiate it at the same time, use the docker run command as a single step:
 ```bash
 docker run --hostname app-hellocow --name hellocow-1.0.0 --publish 8080:8080 app/hellocow:1.0.0
 ```
 
 4. (optional) If you prefer more granularity, you can divide the previous step into two individual commands. First, create the container using the container image we built in step (2):
 ```bash
-docker create --hostname app-hellocow --name hellocow-1.0.0 --publish 8080 app/hellocow:1.0.0
+docker create --hostname app-hellocow --name hellocow-1.0.0 --publish 8080:8080 app/hellocow:1.0.0
 ```
 
 5. (optional) To manually start the container, use the following command:
