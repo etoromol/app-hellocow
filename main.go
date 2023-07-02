@@ -1,13 +1,16 @@
 /*
 main.go
 
-This Go program implements a simple HTTP server that handles incomingrequests to
-the root path ("/") and generates an ASCII art banner with the server's hostname
-and version. It serves as a basic "Moo World" service, providing a fun response
-to client requests. The server listens on the specified port, which can be
-configured through the "PORT" environment variable. It also includes error
+This Go program implements a simple HTTP server that handles incoming requests
+to the root path ("/") and generates an ASCII art banner with the server's
+hostname and version. It serves as a basic "Moo World" service, providing a fun
+response to client requests. The server listens on the specified port, which can
+be configured through the "PORT" environment variable. It also includes error
 handling for invalid access and logs relevant information for debugging and
 monitoring purposes.
+
+Credit: This code was inspired by the "hello-app" open source tutorial:
+https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app
 
 Copyright (c) 2023 Eduardo Toro
 */
@@ -18,6 +21,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 // printMooWorld handles the incoming HTTP requests for the root path "/"
@@ -30,14 +34,21 @@ func printMooWorld(response http.ResponseWriter, request *http.Request) {
 	}
 	log.Printf("Request: %s", request.URL.Path)
 	// Get the hostname of the server
+	maxLength := 15
 	hostname, err := os.Hostname()
 	if err != nil {
 		log.Println("Error getting hostname:", err)
 		return
 	}
 	// Truncate the hostname if it exceeds 15 characters and print last 12
-	if len(hostname) > 15 {
+	if len(hostname) > maxLength {
 		hostname = "..." + hostname[len(hostname)-12:]
+	}
+	// Fixed the hostname if it is less than 15 characters
+	if len(hostname) < maxLength {
+		missingCharacters := maxLength - len(hostname)
+		dots := strings.Repeat(" ", missingCharacters)
+		hostname += dots
 	}
 	version := "1.0.0"
 	// Generate the ASCII art banner with the hostname and version
